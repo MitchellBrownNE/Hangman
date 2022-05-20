@@ -1,7 +1,7 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <algorithm>
-#include <iomanip>
 #include <vector>
 
 void PrintCorrectVector(std::string word, char Guess , std::vector<char> & State)
@@ -32,22 +32,46 @@ void PopulateVector(std::string word , std::vector<char>& State)
 	}
 }
 
+void AlphaVector(std::vector<char> &Alpha)
+{
+	std::cout << std::endl << "\nLetters available:\n";
+	for (int i = 0; i < Alpha.size(); i++)
+	{
+		std::cout << Alpha[i] << " ";
+	}
+	std::cout << std::endl;
+}
+
+void AlphaRemoveChar(char Guess, std::vector<char> &Alpha)
+{
+	for (int i = 0; i < Alpha.size(); i++)
+	{
+		if (Alpha[i] == toupper(Guess))
+		{
+			Alpha[i] = NULL - 1;
+		}
+	}
+}
+
 int main()
 {
 	//Variables
+	int MaxGuess = 6;
 	std::string Word = ("Telephone");
 	std::string WordFinal = Word;
 	char LetterGuess;
-	int MaxGuess = 6;
+	char Alpha[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	std::vector<char> Alphabet(Alpha, Alpha+ sizeof(Alpha)-1);
 
 	//Vector population
 	std::vector<char> CurrentState(Word.length());
 	PopulateVector(Word, CurrentState);
-
+	
 	//Greeting prompt
 	std::cout << "Hello welcome to the hangman game!" << std::endl;
 
 	PrintVector(CurrentState);
+	AlphaVector(Alphabet);
 
 	//Game end when MaxGuess = 0
 	while (MaxGuess > 0)
@@ -61,6 +85,8 @@ int main()
 			system("cls");
 			std::cout << "You have " << MaxGuess << " lives left!\n";
 			PrintCorrectVector(Word, LetterGuess, CurrentState);
+			AlphaRemoveChar(LetterGuess, Alphabet);
+			AlphaVector(Alphabet);
 		}
 
 		//Char not in word
@@ -70,6 +96,7 @@ int main()
 			system("cls");
 			std::cout << "You have " << MaxGuess << " lives left!\n";
 			PrintVector(CurrentState);
+			AlphaVector(Alphabet);
 		}
 		
 		//When word is guessed properly
