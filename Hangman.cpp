@@ -86,10 +86,10 @@ void CorrectWord(std::string Word, std::vector<char>& State)
 
 int main()
 {
-	int MaxGuess = 6;
+	int LivesLeft = 6;
 	std::string  Word = ("Telephone");
 	char LetterGuess;
-	char Alpha[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	const char Alpha[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	std::vector<char> Alphabet(Alpha, Alpha+ sizeof(Alpha)-1);
 
 
@@ -109,7 +109,7 @@ int main()
 
 
 	//Game end when MaxGuess = 0
-	while (MaxGuess > 0)
+	while (LivesLeft > 0)
 	{
 		//Input with letter validation
 		std::cout << "\n\nPlease guess a letter for the word: ";
@@ -131,7 +131,7 @@ int main()
 		if (Word.find(LetterGuess) != std::string::npos)
 		{
 			system("cls");
-			std::cout << "You have " << MaxGuess << " lives left!\n";
+			std::cout << "You have " << LivesLeft << " lives left!\n";
 			AlphaRemoveChar(LetterGuess, Alphabet);
 			AlphaVector(Alphabet);
 			PrintCorrectVector(Word, LetterGuess, CurrentState);
@@ -139,10 +139,11 @@ int main()
 		else
 		{
 			system("cls");
-			MaxGuess = MaxGuess - 1;
-			std::cout << "You have " << MaxGuess << " lives left!\n";
-			PrintVector(CurrentState);
+			LivesLeft = LivesLeft - 1;
+			std::cout << "You have " << LivesLeft << " lives left!\n";
 			AlphaVector(Alphabet);
+			PrintVector(CurrentState);
+			
 		}
 		
 
@@ -154,7 +155,7 @@ int main()
 
 
 	//Prompt for losing
-	if (MaxGuess == 0)
+	if (LivesLeft == 0)
 	{
 		std::cout << "\nSorry you lost, the word was " << Word;
 	}
