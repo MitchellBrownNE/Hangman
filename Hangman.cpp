@@ -1,8 +1,18 @@
+/*
+TO DO
+
+-Format everything
+-Graphics through cmd (Actual hangman and updates when wrong guess) (USE SWITCH STATEMENT)
+
+*/
+
 #include <iostream>
 #include <iomanip>
 #include <string>
 #include <algorithm>
 #include <vector>
+
+
 
 void PrintCorrectVector(std::string word, char Guess , std::vector<char> & State)
 {
@@ -34,12 +44,12 @@ void PopulateVector(std::string word , std::vector<char>& State)
 
 void AlphaVector(std::vector<char> &Alpha)
 {
-	std::cout << std::endl << "\nLetters available:\n";
+	std::cout << "\nLetters available:\n";
 	for (int i = 0; i < Alpha.size(); i++)
 	{
 		std::cout << Alpha[i] << " ";
 	}
-	std::cout << std::endl;
+	std::cout << "\n\n";
 }
 
 void AlphaRemoveChar(char Guess, std::vector<char> &Alpha)
@@ -53,65 +63,100 @@ void AlphaRemoveChar(char Guess, std::vector<char> &Alpha)
 	}
 }
 
+void AlphaCheckLetter(char &Guess, std::vector<char>& Alpha)
+{
+	while (std::find(Alpha.begin(), Alpha.end(), toupper(Guess)) == Alpha.end())
+	{
+		std::cout << "\nLetter has already been used, enter another:";
+		std::cin >> Guess;
+	}
+}
+
+void CorrectWord(std::string Word, std::vector<char>& State)
+{
+	if (std::find(State.begin(), State.end(), '_') == State.end())
+	{
+		std::cout << "\n" << std::setfill('-') << std::setw(50) << "\n";
+		std::cout << "Congratulations the word is: " << (Word) << std::endl;
+		std::exit(0);
+	}
+}
+
+
+
 int main()
 {
-	//Variables
 	int MaxGuess = 6;
-	std::string Word = ("Telephone");
-	std::string WordFinal = Word;
+	std::string  Word = ("Telephone");
 	char LetterGuess;
 	char Alpha[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	std::vector<char> Alphabet(Alpha, Alpha+ sizeof(Alpha)-1);
 
+
 	//Vector population
 	std::vector<char> CurrentState(Word.length());
 	PopulateVector(Word, CurrentState);
-	
+
 	//Greeting prompt
 	std::cout << "Hello welcome to the hangman game!" << std::endl;
 
-	PrintVector(CurrentState);
+
+
+	//Display for unguessed word and remaining letter
 	AlphaVector(Alphabet);
+	PrintVector(CurrentState);
+
+
 
 	//Game end when MaxGuess = 0
 	while (MaxGuess > 0)
 	{
-		std::cout << "\nPlease guess a letter for the word: ";
+		//Input with letter validation
+		std::cout << "\n\nPlease guess a letter for the word: ";
 		std::cin >> LetterGuess;
+		while (!isalpha(LetterGuess))
+		{
+		std::cin.clear();
+		std::cout << "\nEnter a alphabetical character: ";
+		std::cin >> LetterGuess;
+		}
 
-		//Char in word
+		std::transform(Word.begin(), Word.end(), Word.begin(), ::toupper);
+		LetterGuess = toupper(LetterGuess);
+
+		//Check if LetterGuess used already
+		AlphaCheckLetter(LetterGuess, Alphabet);
+
+		//Char in word or not
 		if (Word.find(LetterGuess) != std::string::npos)
 		{
 			system("cls");
 			std::cout << "You have " << MaxGuess << " lives left!\n";
-			PrintCorrectVector(Word, LetterGuess, CurrentState);
 			AlphaRemoveChar(LetterGuess, Alphabet);
 			AlphaVector(Alphabet);
+			PrintCorrectVector(Word, LetterGuess, CurrentState);
 		}
-
-		//Char not in word
 		else
 		{
-			MaxGuess = MaxGuess - 1;
 			system("cls");
+			MaxGuess = MaxGuess - 1;
 			std::cout << "You have " << MaxGuess << " lives left!\n";
 			PrintVector(CurrentState);
 			AlphaVector(Alphabet);
 		}
 		
+
+
 		//When word is guessed properly
-		if (std::find(CurrentState.begin(), CurrentState.end(), '_') == CurrentState.end())
-		{
-			std::cout << "\n" << std::setfill('-') << std::setw(50) << "\n";
-			std::cout << "Congratulations the word is: " << (WordFinal) << std::endl;
-			std::exit(0);
-		}
+		CorrectWord(Word, CurrentState);
 	}
+
+
 
 	//Prompt for losing
 	if (MaxGuess == 0)
 	{
-		std::cout << "\nSorry you lost, the word was " << WordFinal;
+		std::cout << "\nSorry you lost, the word was " << Word;
 	}
 
 	return 0;
