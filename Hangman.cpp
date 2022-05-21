@@ -82,6 +82,25 @@ void CorrectWord(std::string Word, std::vector<char>& State)
 	}
 }
 
+void DrawHangman(int Lives)
+{
+	int x = 1;
+	switch (Lives)
+	{
+	case 1:
+		std::cout << "\n  O";
+	case 2:
+		std::cout << "\n /";
+	case 3:
+		std::cout << "|";
+	case 4:
+		std::cout << "\\";
+	case 5:
+		std::cout << "\n /";
+	case 6:
+		std::cout << " \\";
+	}
+}
 
 
 int main()
@@ -135,6 +154,7 @@ int main()
 			AlphaRemoveChar(LetterGuess, Alphabet);
 			AlphaVector(Alphabet);
 			PrintCorrectVector(Word, LetterGuess, CurrentState);
+			DrawHangman(LivesLeft);
 		}
 		else
 		{
@@ -143,6 +163,7 @@ int main()
 			std::cout << "You have " << LivesLeft << " lives left!\n";
 			AlphaVector(Alphabet);
 			PrintVector(CurrentState);
+			DrawHangman(LivesLeft);
 			
 		}
 		
