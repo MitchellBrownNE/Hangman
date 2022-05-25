@@ -84,22 +84,84 @@ void CorrectWord(std::string Word, std::vector<char>& State)
 
 void DrawHangman(int Lives)
 {
-	int x = 1;
-	switch (Lives)
+	switch (Lives+1)
 	{
 	case 1:
-		std::cout << "\n  O";
+		std::cout << "\n\n----------------";
+		std::cout << "\n|        |";
+		std::cout << "\n|        O";
+		std::cout << "\n|       /|\\";
+		std::cout << "\n|        |";
+		std::cout << "\n|       / \\";
+		std::cout << "\n|";
+		std::cout << "\n|";
+		break;
 	case 2:
-		std::cout << "\n /";
+		std::cout << "\n\n----------------";
+		std::cout << "\n|        |";
+		std::cout << "\n|        O";
+		std::cout << "\n|       /|\\";
+		std::cout << "\n|        |";
+		std::cout << "\n|         \\";
+		std::cout << "\n|";
+		std::cout << "\n|";
+		break;
+
 	case 3:
-		std::cout << "|";
+		std::cout << "\n\n----------------";
+		std::cout << "\n|        |";
+		std::cout << "\n|        O";
+		std::cout << "\n|       /|\\";
+		std::cout << "\n|        |";
+		std::cout << "\n|         ";
+		std::cout << "\n|";
+		std::cout << "\n|";
+		break;
+
 	case 4:
-		std::cout << "\\";
+		std::cout << "\n\n----------------";
+		std::cout << "\n|        |";
+		std::cout << "\n|        O";
+		std::cout << "\n|        |\\";
+		std::cout << "\n|        |";
+		std::cout << "\n|         ";
+		std::cout << "\n|";
+		std::cout << "\n|";
+		break;
+
 	case 5:
-		std::cout << "\n /";
+		std::cout << "\n\n----------------";
+		std::cout << "\n|        |";
+		std::cout << "\n|        O";
+		std::cout << "\n|        |";
+		std::cout << "\n|        |";
+		std::cout << "\n|         ";
+		std::cout << "\n|";
+		std::cout << "\n|";
+		break;
 	case 6:
-		std::cout << " \\";
+		std::cout << "\n\n----------------";
+		std::cout << "\n|        |";
+		std::cout << "\n|        O";
+		std::cout << "\n|         ";
+		std::cout << "\n|         ";
+		std::cout << "\n|         ";
+		std::cout << "\n|";
+		std::cout << "\n|";
+		break;
+	case 7:
+		std::cout << "\n\n----------------";
+		std::cout << "\n|        |";
+		std::cout << "\n|         ";
+		std::cout << "\n|         ";
+		std::cout << "\n|         ";
+		std::cout << "\n|         ";
+		std::cout << "\n|";
+		std::cout << "\n|";
+		break;
 	}
+	
+
 }
 
 
@@ -124,6 +186,7 @@ int main()
 	//Display for unguessed word and remaining letter
 	AlphaVector(Alphabet);
 	PrintVector(CurrentState);
+	DrawHangman(LivesLeft);
 
 
 
